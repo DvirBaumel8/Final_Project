@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>F_Project</groupId>
-    <artifactId>Project</artifactId>
+    <groupId>FinalProject</groupId>
+    <artifactId>FristExamplesWithoutSpring</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>
@@ -19,5 +19,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
