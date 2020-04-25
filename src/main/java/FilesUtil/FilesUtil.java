@@ -1,7 +1,11 @@
 package FilesUtil;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
@@ -11,18 +15,22 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class FilesUtil {
+    private static final String POM_FILE = "pom.xml";
+    private static final String MAIN_METHOD = "public static void main(String[] args) {";
+    private static final String APP_CONTEXT = "ApplicationContext context = new AnnotationConfigApplicationContext(MainConfiguration.class);";
+    private static final String SPRING_IMPORT = "import org.springframework.context.ApplicationContext;\nimport org.springframework.context.annotation.AnnotationConfigApplicationContext;";
 
-    public File[] openProject(String directoryPath) {
+    public File[] getProjectFiles(String directoryPath) {
         try {
             File directory = new File(directoryPath);
-            File[] contents = directory.listFiles();
-            if(validateProject(contents)) {
-                return contents;
+            File[] content = directory.listFiles();
+            if(validateProject(content)) {
+                return content;
             }
             else {
                 //throw new exception
             }
-            return contents;
+            return content;
         }
         catch(Exception e) {
 
@@ -30,23 +38,18 @@ public class FilesUtil {
         return null;
     }
 
-    private boolean validateProject(File[] contents) {
+    private boolean validateProject(File[] content) {
         return true;
     }
 
-    public void createNewPomFileWithSpringDependencies(File[] projectFile, String pathOfCreatedPom) throws IOException {
-        File pomFile = findFileByName(projectFile);
-        String pomContent = getFileContent(pomFile);
-        pathOfCreatedPom = pathOfCreatedPom + "/pom.xml";
-        File newPomFile = new File(pathOfCreatedPom);
-        copyFileContent(pomContent, newPomFile);
-        addSpringDependenciesToPomFile(newPomFile);
+    public void addSpringDependenciesToPomFile(File[] projectFile) throws IOException {
+        File pomFile = findFileByName(projectFile, POM_FILE);
+        addSpringDependenciesToPomFile(pomFile);
     }
 
-    private void addSpringDependenciesToPomFile(File newPomFile) throws IOException {
-        String pomContent = getFileContent(newPomFile);
-        List<String> lines = Files.readAllLines(newPomFile.toPath(), StandardCharsets.UTF_8);
-        PrintStream out = new PrintStream(new FileOutputStream(newPomFile));
+    private void addSpringDependenciesToPomFile(File pomFile) throws IOException {
+        List<String> lines = Files.readAllLines(pomFile.toPath(), StandardCharsets.UTF_8);
+        PrintStream out = new PrintStream(new FileOutputStream(pomFile));
 
         int index = 0;
 
@@ -79,7 +82,6 @@ public class FilesUtil {
             newContent.append(System.lineSeparator());
         }
         out.write(newContent.toString().getBytes());
-
         System.out.println("");
     }
 
@@ -93,57 +95,41 @@ public class FilesUtil {
         return false;
     }
 
-    private void copyFileContent(String pomContent, File pomFile) throws IOException {
-        PrintStream out = new PrintStream(new FileOutputStream(pomFile));
-        out.write(pomContent.getBytes());
-    }
-
-    public static String getFileContent(File pomFile) {
-        StringBuilder content = new StringBuilder();
-        Path pomPath = pomFile.toPath();
-        List<String> lines = null;
-
-        try {
-            lines = Files.readAllLines(pomPath, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        for(String line : lines) {
-            content.append(line);
-            content.append(System.lineSeparator());
-        }
-
-        return content.toString();
-    }
-
-    private File findFileByName(File[] projectFile) {
-        for(int i = 0; i < projectFile.length; i++) {
-            if(projectFile[i].getName().equals("pom.xml")) {
-                return projectFile[i];
+    //Maybe we have to delete
+    public File findFileByName(File[] projectFiles, String fileName) {
+        File main;
+        for(int i = 0; i < projectFiles.length; i++) {
+            if(projectFiles[i].listFiles() != null ) {
+                  main = findFileByName(projectFiles[i].listFiles(), fileName);
+                  if(main != null) {
+                      return main;
+                  }
             }
+            if(projectFiles[i].getName().equals(fileName)) {
+                return projectFiles[i];
+            }
+
         }
         return null;
     }
 
     private String getDependenciesStrWithOpen() {
-        return "  <dependencies>\n" +
-                "\n" +
-                "        <dependency>\n" +
-                "            <groupId>org.springframework</groupId>\n" +
-                "            <artifactId>spring-core</artifactId>\n" +
-                "            <version>5.2.1.RELEASE</version>\n" +
-                "        </dependency>\n" +
-                "\n" +
+        return "    <dependencies>\n" +
+                "    <!--spring core-->\n" +
+                "    <dependency>\n" +
+                "        <groupId>org.springframework</groupId>\n" +
+                "        <artifactId>spring-context</artifactId>\n" +
+                "        <version>5.0.6.RELEASE</version>\n" +
+                "    </dependency>\n" +
                 "    </dependencies>";
     }
 
     private String getDependenciesStrWithOutOpen() {
-        return "        <dependency>\n" +
-                "            <groupId>org.springframework</groupId>\n" +
-                "            <artifactId>spring-core</artifactId>\n" +
-                "            <version>5.2.1.RELEASE</version>\n" +
-                "        </dependency>\n";
+        return "    <dependency>\n" +
+                "        <groupId>org.springframework</groupId>\n" +
+                "        <artifactId>spring-context</artifactId>\n" +
+                "        <version>5.0.6.RELEASE</version>\n" +
+                "    </dependency>";
     }
 
 
@@ -163,7 +149,12 @@ public class FilesUtil {
     private String createNewFolderInSpecificPath(String pathOfNewSpringProject, String directoryName) throws IOException {
         pathOfNewSpringProject = pathOfNewSpringProject + directoryName + "_Spring_Way";
         Path path = Paths.get(pathOfNewSpringProject);
-        Files.createDirectory(path);
+        if(Files.exists(path)) {
+            FileUtils.cleanDirectory(new File(pathOfNewSpringProject));
+        }
+        else {
+            Files.createDirectory(path);
+        }
         return pathOfNewSpringProject;
     }
 
@@ -173,5 +164,55 @@ public class FilesUtil {
 
     public void addNewBeanToConfigurationFile(String fileName, String beanName, String objectType) {
 
+    }
+
+    public void addAnnotationContextToFile(File mainFile) throws IOException {
+        List<String> allLines = Files.readAllLines(mainFile.toPath(), StandardCharsets.UTF_8);
+        PrintStream out = new PrintStream(new FileOutputStream(mainFile));
+        int index = 0;
+
+        for(String line : allLines) {
+            if(line.contains("package")) {
+                index++;
+            }
+        }
+
+        allLines.add(index, SPRING_IMPORT);
+        index = 0;
+
+        for(String line : allLines) {
+            if(line.contains(MAIN_METHOD)) {
+                index++;
+                break;
+            }
+            index++;
+        }
+        allLines.add(index, APP_CONTEXT);
+
+        StringBuilder newContent = new StringBuilder();
+        for(String line : allLines) {
+            newContent.append(line);
+            newContent.append(System.lineSeparator());
+        }
+        out.write(newContent.toString().getBytes());
+    }
+
+    public void populateConfigMainFile(File confFile) throws IOException {
+        PrintStream out = new PrintStream(new FileOutputStream(confFile));
+        String mainConfFileStr = getMainConfString();
+        out.write(mainConfFileStr.getBytes());
+    }
+
+    private String getMainConfString() {
+        return "import org.springframework.context.annotation.Configuration;\n" +
+                "\n" +
+                "@Configuration\n" +
+                "public class MainConfiguration {\n" +
+                "    \n" +
+                "}";
+    }
+
+    public String getJavaDir() {
+        return "/Users/db384r/Dev/Final_Project/First examples/Without spring_Spring_Way/src/main/java";
     }
 }

@@ -8,6 +8,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../../First examples/FirstExamplesWithSpring/src/main/java/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../First examples/FirstExamplesWithSpring/src/main/java/mainConfiguration.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../../First examples/Without spring/pom.xml">
           <value>
             <set />
@@ -19,6 +29,41 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../../First examples/Without spring/src/main/java/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../First examples/Without spring_Spring_Way/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../First examples/Without spring_Spring_Way/src/main/java/Actor.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../First examples/Without spring_Spring_Way/src/main/java/ActorConfiguration.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../First examples/Without spring_Spring_Way/src/main/java/ActorConfigurration.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../First examples/Without spring_Spring_Way/src/main/java/ConfigurationActor.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../First examples/Without spring_Spring_Way/src/main/java/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../First examples/Without spring_Spring_Way/src/main/java/MainConfiguration.java">
           <value>
             <set />
           </value>
@@ -64,6 +109,46 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/Manager/ManagerConfiguration.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/Manager/ProjectDetails.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/Manager/SourceProject.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/Manager/SourceProjectDetails.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/ProjectContainers/EditProject.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/ProjectContainers/SourceProject.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/ProjectScanning/FilesScanner.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/ProjectScanning/NewBeanDetails.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/ProjectScanning/ProjectStructure.java">
           <value>
             <set />
           </value>
@@ -373,6 +458,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/test-apis-ci/src/main/java/org/openecomp/sdc/ci/tests/utils/general/VendorSoftwareProductRestUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/test-apis-ci/src/main/java/org/openecomp/sdc/ci/tests/utils/rest/ResourceRestUtils.java">
           <value>
             <set />
@@ -599,6 +689,21 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../../../Work_Courses/BIQ-Course/Spring Core/First Project/SpringBasedAnnotation/src/main/java/ActorConfiguration.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Work_Courses/BIQ-Course/Spring Core/First Project/SpringComponent/src/main/java/IMDB/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Work_Courses/BIQ-Course/Spring Core/First Project/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/a.dummy">
           <value>
             <set />
           </value>
