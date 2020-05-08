@@ -17,13 +17,13 @@ public class UnitTestValidator {
 
     public boolean runUnitTests(File[] projectFiles) {
         this.testDir = findTestDir(projectFiles);
-        findTestClasses(testDir);
-        JUnitCore junit = new JUnitCore();
-        for(File file : testClasses) {
-            //junit.addListener();
-        }
-
-        return true;
+  //      findTestClasses(testDir);
+//        JUnitCore junit = new JUnitCore();
+//        for(File file : testClasses) {
+//            //junit.addListener();
+//        }
+//
+      return true;
     }
 
     private void findTestClasses(File file) {

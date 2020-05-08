@@ -42,6 +42,7 @@ public class Manager {
     }
 
     private void init(String projectPath) throws IOException {
+        unitTestValidator = new UnitTestValidator();
         editProject = new EditProject();
         sourceProject = new SourceProject();
         sourceProject.setProjectPath(projectPath);
