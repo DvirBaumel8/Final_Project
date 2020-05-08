@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 
-public class FilesScanner {
+public class Scanner {
     private Map<String, String> classNameToPath;
     private Map<String, NewBeanDetails> objectNameToBeanDetails;
     private boolean isBeanAdded;
 
-    public FilesScanner() {
+    public Scanner() {
         classNameToPath = new HashMap<>();
         objectNameToBeanDetails = new HashMap<>();
         isBeanAdded = false;
@@ -162,6 +162,9 @@ public class FilesScanner {
         Map<String, String> replaceLineWithNew = new HashMap<>();
 
         for(Map.Entry<String, String> entry : classNameToPath.entrySet()) {
+            if(entry.getKey().equals("MainConfiguration")) {
+                continue;
+            }
             classPath = entry.getValue();
             cFile = new File(classPath);
             List<String> allLines = Files.readAllLines(cFile.toPath(), StandardCharsets.UTF_8);
@@ -223,16 +226,13 @@ public class FilesScanner {
     }
 
     private String findClassName(String[] elements) {
-        int index = 0;
-        for(int i = 0; i < elements.length; i++) {
-            if(elements[i].equals("")) {
-                index++;
+            for(int i = 0; i < elements.length; i++) {
+                if(elements[i].equals("new")) {
+                    i++;
+                    return elements[i].split(String.format("\\("))[0];
+                }
             }
-            else {
-                break;
-            }
-        }
-        return elements[index];
+            return null;
     }
 
     private boolean checkIfClassIsInternal(String objectName) {
