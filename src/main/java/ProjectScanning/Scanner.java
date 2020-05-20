@@ -8,36 +8,69 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class Scanner {
     private Map<String, String> classNameToPath;
-    private Map<String, NewBeanDetails> objectNameToBeanDetails;
+    private Map<String, NewBeanDetails> instanceNameToBeanDetails;
     private boolean isBeanAdded;
+    private Set<String> classesToAddAppCox;
 
     public Scanner() {
         classNameToPath = new HashMap<>();
-        objectNameToBeanDetails = new HashMap<>();
+        instanceNameToBeanDetails = new HashMap<>();
+        classesToAddAppCox = new HashSet<>();
         isBeanAdded = false;
     }
 
     public void scan(String javaDir) throws IOException {
         findClasses(javaDir);
-        findNewProjectObjectsCreation();
-        createBeanMethodsToObjects();
+        findNewProjectInstancesCreation();
+        createBeanMethods();
+        handleAppCtxWriteToNeededClasses();
     }
 
-    private void createBeanMethodsToObjects() throws IOException {
+    private void handleAppCtxWriteToNeededClasses() throws IOException {
+        for(Map.Entry<String, String> entry : classNameToPath.entrySet()) {
+            for(String clazz : classesToAddAppCox) {
+                if(clazz.equals(entry.getKey())) {
+                    addAppCtxToClass(clazz, entry.getValue());
+                }
+            }
+        }
+    }
+
+    private void addAppCtxToClass(String clazz, String classPath) throws IOException {
+        File file = new File(classPath);
+        List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+        int index = 0;
+
+        for(String line : lines) {
+            if(line.contains(String.format("class %s", clazz))) {
+                index++;
+                break;
+            }
+            index++;
+        }
+        lines.add(index, "   private static ApplicationContext context = new AnnotationConfigApplicationContext(MainConfiguration.class);");
+        index -= 2;
+        lines.add(index, "import org.springframework.context.ApplicationContext;\n" +
+                "import org.springframework.context.annotation.AnnotationConfigApplicationContext;");
+        writeNewContentToFile(file, lines);
+    }
+
+    private void createBeanMethods() throws IOException {
         File mainConf = getMainConfigurationFile();
         String cBeanMethodStr;
 
-        for(Map.Entry<String, NewBeanDetails> entry : objectNameToBeanDetails.entrySet()) {
+        for(Map.Entry<String, NewBeanDetails> entry : instanceNameToBeanDetails.entrySet()) {
             cBeanMethodStr = createBeanMethodStr(entry.getKey(), entry.getValue());
             addMethodToFile(mainConf, cBeanMethodStr);
         }
-
     }
 
     private void addMethodToFile(File mainConf, String cBeanMethodStr) throws IOException {
@@ -90,16 +123,16 @@ public class Scanner {
         writeNewContentToFile(mainConf, lines);
     }
 
-    private String createBeanMethodStr(String objectName, NewBeanDetails beanDetails) throws IOException {
+    private String createBeanMethodStr(String instanceName, NewBeanDetails beanDetails) throws IOException {
         String origClass = beanDetails.getOrigClass();
         StringBuilder str = new StringBuilder();
         str.append("@Bean\n");
-        str.append(String.format("public %s %s() {\n", origClass, objectName));
+        str.append(String.format("public %s %s() {\n", origClass, instanceName));
         String constructorArgs = beanDetails.getCreationObjectConstructorArgs();
-        str.append(String.format("%s %s = new %s(%s);\n", origClass, objectName, origClass, constructorArgs));
+        str.append(String.format("%s %s = new %s(%s);\n", origClass, instanceName, origClass, constructorArgs));
         String settersStr = getSettersStrs(beanDetails);
         str.append(settersStr);
-        str.append(String.format("return %s;\n}\n", objectName));
+        str.append(String.format("return %s;\n}\n", instanceName));
 
         return str.toString();
     }
@@ -152,66 +185,71 @@ public class Scanner {
         return new File(mainConfPath);
     }
 
-    private void findNewProjectObjectsCreation() throws IOException {
-        String classPath;
-        File cFile;
-        String[] elements;
-        String className;
-        String objectName;
-        int index = 0;
-        Map<String, String> replaceLineWithNew = new HashMap<>();
+    private void findNewProjectInstancesCreation() throws IOException {
 
-        for(Map.Entry<String, String> entry : classNameToPath.entrySet()) {
-            if(entry.getKey().equals("MainConfiguration")) {
+        for (Map.Entry<String, String> entry : classNameToPath.entrySet()) {
+            if (entry.getKey().equals("MainConfiguration")) {
                 continue;
             }
-            classPath = entry.getValue();
-            cFile = new File(classPath);
-            List<String> allLines = Files.readAllLines(cFile.toPath(), StandardCharsets.UTF_8);
-            for(String line : allLines) {
-                if(line.contains("new")) {
-                   elements = line.split(" ");
-                   className = findClassName(elements);
-                    if(checkIfClassIsInternal(className)) {
-                        objectName = findObjectName(elements);
-                        NewBeanDetails beanDetails = new NewBeanDetails(entry.getKey(), line, objectName, className);
-                        objectNameToBeanDetails.put(objectName, beanDetails);
-                        replaceLineWithNew.put(line, getBeanAccessStr(className, objectName));
-                    }
-                }
-                index++;
-            }
-            index = 0;
-            for(Map.Entry<String, String> item : replaceLineWithNew.entrySet()) {
-                allLines.remove(item.getKey());
-                allLines.add(getIndexToInjectBeanAccess(cFile), item.getValue());
-            }
-                writeNewContentToFile(cFile, allLines);
-            }
+            handleInternalClassScan(entry.getValue(), entry.getKey());
         }
+    }
 
-    private int getIndexToInjectBeanAccess(File cFile) throws IOException {
+    private void handleInternalClassScan(String classPath, String key) throws IOException {
+        String[] elements;
+        String className;
+        String instanceName;
+        Map<String, String> replaceLineWithNew = new HashMap<>();
+        File cFile = new File(classPath);
         List<String> allLines = Files.readAllLines(cFile.toPath(), StandardCharsets.UTF_8);
         int index = 0;
 
         for(String line : allLines) {
-            if(line.contains("context = new")) {
-                index++;
+            if(line.contains("new")) {
+                elements = line.split(" ");
+                className = findClassName(elements);
+                if(checkIfClassIsInternal(className)) {
+                    instanceName = findInstanceName(elements);
+                    NewBeanDetails beanDetails = new NewBeanDetails(key, line, instanceName, className);;
+                    classesToAddAppCox.add(key);
+                    if(instanceNameToBeanDetails.containsKey(instanceName)) {
+                        String beanName = BeanNamesGenerator.getNewBeanName();
+                        beanDetails = new NewBeanDetails(key, line, beanName, className);
+                        instanceNameToBeanDetails.put(beanName, beanDetails);
+                    }
+                    else {
+                        instanceNameToBeanDetails.put(instanceName, beanDetails);
+                    }
+                    replaceLineWithNew.put(line, getBeanAccessStr(className, instanceName));
+                }
+            }
+            index++;
+        }
+        for(Map.Entry<String, String> item : replaceLineWithNew.entrySet()) {
+            replaceLines(cFile, item.getKey(), item.getValue(), allLines);
+        }
+        writeNewContentToFile(cFile, allLines);
+    }
+
+    private void replaceLines(File cFile, String lineToRemove, String lineToWrite, List<String> allLines) {
+        int index = 0;
+
+        for(String line : allLines) {
+            if(line.equals(lineToRemove)) {
+                allLines.remove(lineToRemove);
                 break;
             }
-            else {
-                index++;
-            }
+            index++;
         }
-
-        return index;
+        allLines.add(index, lineToWrite);
     }
 
-    private String getBeanAccessStr(String className, String objectName) {
-        return String.format("%s %s = context.getBean(%s.class);", className, objectName, className);
+    private String getBeanAccessStr(String className, String instanceName) {
+        return String.format("      %s %s = context.getBean(\"%s\", %s.class);", className, instanceName, instanceName, className);
+
     }
 
-    private String findObjectName(String[] elements) {
+    private String findInstanceName(String[] elements) {
         int index = 0;
         for(int i = 0; i < elements.length; i++) {
             if(elements[i].equals("")) {
@@ -235,9 +273,9 @@ public class Scanner {
             return null;
     }
 
-    private boolean checkIfClassIsInternal(String objectName) {
+    private boolean checkIfClassIsInternal(String instanceName) {
         for(Map.Entry<String, String> entry : classNameToPath.entrySet()) {
-            if(entry.getKey().equals(objectName)) {
+            if(entry.getKey().equals(instanceName)) {
                 return true;
             }
         }

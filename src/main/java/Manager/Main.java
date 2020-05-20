@@ -1,10 +1,8 @@
 package Manager;
 
-import Manager.Manager;
-
 public class Main {
     public static void main(String[] args) {
-        String projectDirectoryPath = "/Users/db384r/Dev/Final_Project/First examples/Without spring/";
+        String projectDirectoryPath = "/Users/db384r/Dev/Final_Project/projects to convert/3/without spring";
         Manager manager = Manager.getInstance();
         if(manager.validateProjectDirectoryPath(projectDirectoryPath)) {
             try {
@@ -17,7 +15,5 @@ public class Main {
         else {
             System.out.println(manager.getProjectPathErrorMessage());
         }
-
-
     }
 }

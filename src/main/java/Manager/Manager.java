@@ -55,7 +55,6 @@ public class Manager {
 
     private void initializeEditProjectToSpring() throws IOException {
         filesUtil.addSpringDependenciesToPomFile(editProject.getEditProjectFiles());
-        filesUtil.addAnnotationContextToMain(editProject.getEditProjectFiles());
         filesUtil.addMainConfFile();
     }
 
@@ -74,11 +73,19 @@ public class Manager {
     }
 
     public boolean validateProjectDirectoryPath(String projectDirectoryPath) {
-        if(Files.exists(Paths.get(projectDirectoryPath))) {
+        boolean isValid = true;
 
+        if(!validateDirectoryContainPomFile(projectDirectoryPath)) {
+            isValid = false;
         }
-        return true;
+        if(!Files.exists(Paths.get(projectDirectoryPath))) {
+            isValid = false;
+        }
+        return isValid;
+    }
 
+    private boolean validateDirectoryContainPomFile(String projectDirectoryPath) {
+        return true;
     }
 
     public String getProjectPathErrorMessage() {

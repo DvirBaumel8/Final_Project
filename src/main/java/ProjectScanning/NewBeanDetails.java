@@ -6,8 +6,8 @@ public class NewBeanDetails {
     private String beanName;
     private String origClass;
 
-    public NewBeanDetails(String objectName, String creationLine, String beanName, String origClass) {
-        this.createdUnderClass = objectName;
+    public NewBeanDetails(String createdUnderClass, String creationLine, String beanName, String origClass) {
+        this.createdUnderClass = createdUnderClass;
         this.creationLine = creationLine;
         this.beanName = beanName;
         this.origClass = origClass;
