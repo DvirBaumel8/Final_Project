@@ -3,12 +3,452 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="/Dummy.txt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../First examples/Without spring/src/main/java/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../First examples/Without spring_Spring_Way/src/main/java/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../First examples/Without spring_Spring_Way/src/main/java/MainConfiguration.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/pom.xml">
           <value>
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/BeanNamesGenerator.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/Manager/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/Manager/Manager.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/ProjectScanning/BeanNamesGenerator.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/ProjectScanning/BlackListUtil.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/ProjectScanning/NewBeanDetails.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/ProjectScanning/Scanner.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/UnitTests/UnitTestValidator.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/1/spring/FirstExamplesWithSpring.iml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/1/spring/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/1/spring/src/main/java/Actor.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/1/spring/src/main/java/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/1/spring/src/main/java/MainConfiguration.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/1/spring/src/main/java/mainConfiguration.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/1/spring/src/test/java/ActorsListTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/1/without spring/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/1/without spring/src/main/java/Actor.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/1/without spring/src/main/java/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/1/without spring/src/test/java/ActorsListTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/1/without spring_Spring_Way/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/1/without spring_Spring_Way/src/main/java/Actor.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/1/without spring_Spring_Way/src/main/java/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/1/without spring_Spring_Way/src/main/java/MainConfiguration.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/2/spring/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/2/spring/spring.iml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/2/spring/src/main/java/Actor.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/2/spring/src/main/java/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/2/spring/src/main/java/mainConfiguration.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/2/spring/src/test/java/ActorsListTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/2/without spring/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/2/without spring/src/main/java/Actor.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/2/without spring/src/main/java/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/2/without spring/src/test/java/ActorsListTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/2/without spring_Spring_Way/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/2/without spring_Spring_Way/src/main/java/Actor.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/2/without spring_Spring_Way/src/main/java/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/2/without spring_Spring_Way/src/main/java/MainConfiguration.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/spring/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/spring/src/main/java/ActorsFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/spring/src/main/java/MainConfiguration.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/spring/src/test/java/NonStaticActorsFactoryTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/spring/src/test/java/StaticActorsListTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/without spring/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/without spring/src/main/java/Actor.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/without spring/src/main/java/ActorsFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/without spring/src/main/java/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/without spring/src/main/resources/BlackList">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/without spring/src/test/java/NonStaticActorsFactoryTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/without spring/src/test/java/StaticActorsFactoryTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/without spring_Spring_Way/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/without spring_Spring_Way/src/main/java/Actor.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/without spring_Spring_Way/src/main/java/ActorsFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/without spring_Spring_Way/src/main/java/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/without spring_Spring_Way/src/main/java/MainConfiguration.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/without spring_Spring_Way/src/main/resources/BlackList">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/without spring_Spring_Way/src/test/java/ActorsFactoryTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/3/without spring_Spring_Way/src/test/java/StaticActorsFactoryTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../projects to convert/FirstExamplesWithSpring/src/main/java/Actor.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/catalog-be/src/main/java/org/openecomp/sdc/be/servlets/BeGenericServlet.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/test-apis-ci/src/main/java/org/openecomp/sdc/ci/tests/utils/general/AtomicOperationUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/ui-ci/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/ui-ci/src/main/java/org/openecomp/sdc/ci/tests/execute/setup/DriverFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/ui-ci/src/main/java/org/openecomp/sdc/ci/tests/execute/setup/SetupCDTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/ui-ci/src/main/java/org/openecomp/sdc/ci/tests/execute/setup/WebDriverThread.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/ui-ci/src/main/java/org/openecomp/sdc/ci/tests/pages/GeneralPageElements.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/ui-ci/src/main/java/org/openecomp/sdc/ci/tests/utilities/AdditionalConditions.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/ui-ci/src/main/java/org/openecomp/sdc/ci/tests/utilities/GeneralUIUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/ui-ci/src/main/java/org/openecomp/sdc/ci/tests/utilities/OnboardingUiUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/ui-ci/src/main/java/org/openecomp/sdc/ci/tests/utilities/PropertiesUIUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/ui-ci/src/main/java/org/openecomp/sdc/ci/tests/utilities/ResourceUIUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/ui-ci/src/main/java/org/openecomp/sdc/ci/tests/utilities/UltimateWaiter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/ui-ci/src/main/java/org/openecomp/sdc/cucumber/e2e/steps/StepsE2E.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/ui-ci/src/main/java/org/openecomp/sdc/cucumber/runners/RunE2ETests.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Git_Work/SDC/sdc/ui-ci/src/main/resources/ci/conf/attsdc.yaml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Java/Excersices/Java_Course/Engine/src/Manager/EngineManager.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Java/Excersices/Java_Course/Engine/src/MatchingUtil/MatchingUtil.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Java/Excersices/Java_Course/Engine/src/TripRequests/TripRequest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Java/Excersices/Java_Course/Engine/src/TripSuggestUtil/TripSuggest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Java/Excersices/Java_Course/Engine/src/TripSuggestUtil/TripSuggestUtil.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Java/Excersices/Java_Course/Engine/src/Validations/TripValidations/RequestValidator.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Java/Excersices/Java_Course/Ex_1/Engine/src/TripSuggestUtil/TripSuggestUtil.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../Java/Excersices/Java_Course/UI/src/TransPoolManager.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/a.dummy">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/fragment.java">
           <value>
             <set />
           </value>
