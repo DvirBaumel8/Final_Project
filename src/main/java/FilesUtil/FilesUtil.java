@@ -132,17 +132,12 @@ public class FilesUtil {
     }
 
 
-    public String createNewSpringProjectDirectory(String projectPath) throws IOException {
-        String[] elements = projectPath.split("/");
+    public String createNewSpringProjectDirectory(String projectPathString) throws IOException {
+        Path projectPath = Paths.get(projectPathString);
         StringBuilder pathOfNewSpringProject = new StringBuilder();
-        String separator = "/";
-        pathOfNewSpringProject.append(separator);
-
-        for(int i = 1; i < elements.length - 1; i++) {
-            pathOfNewSpringProject.append(elements[i] + separator);
-        }
-
-        return createNewFolderInSpecificPath(pathOfNewSpringProject.toString(), elements[elements.length - 1]);
+        //pathOfNewSpringProject.append(File.separator + projectPath.getParent() + File.separator);
+        pathOfNewSpringProject.append(projectPath.getParent() + File.separator);
+        return createNewFolderInSpecificPath(pathOfNewSpringProject.toString(), projectPath.getFileName().toString());
     }
 
     private String createNewFolderInSpecificPath(String pathOfNewSpringProject, String directoryName) throws IOException {
