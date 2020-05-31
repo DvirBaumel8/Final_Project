@@ -20,6 +20,15 @@ public class FilesUtil {
     private static final String SPRING_IMPORT = "import org.springframework.context.ApplicationContext;\nimport org.springframework.context.annotation.AnnotationConfigApplicationContext;";
     private static final String MAIN = "Main.java";
 
+    private static String OS = System.getProperty("os.name").toLowerCase();
+    private static boolean isWindows() {
+        return (OS.indexOf("win") >= 0);
+    }
+
+    private static boolean isMac() {
+        return (OS.indexOf("mac") >= 0);
+    }
+
     public File[] getProjectFiles(String directoryPath) {
         try {
             File directory = new File(directoryPath);
@@ -135,8 +144,11 @@ public class FilesUtil {
     public String createNewSpringProjectDirectory(String projectPathString) throws IOException {
         Path projectPath = Paths.get(projectPathString);
         StringBuilder pathOfNewSpringProject = new StringBuilder();
-        //pathOfNewSpringProject.append(File.separator + projectPath.getParent() + File.separator);
-        pathOfNewSpringProject.append(projectPath.getParent() + File.separator);
+
+        if(isMac())
+            pathOfNewSpringProject.append(File.separator + projectPath.getParent() + File.separator);
+        if(isWindows())
+            pathOfNewSpringProject.append(projectPath.getParent() + File.separator);
         return createNewFolderInSpecificPath(pathOfNewSpringProject.toString(), projectPath.getFileName().toString());
     }
 
