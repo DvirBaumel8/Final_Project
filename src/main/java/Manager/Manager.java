@@ -18,7 +18,6 @@ public class Manager {
     private EditProject editProject;
     private UnitTestValidator unitTestValidator;
 
-
     public static Manager getInstance() {
         if(manager == null) {
             manager = new Manager();

@@ -19,19 +19,50 @@ public class Scanner {
     private Map<String, NewBeanDetails> instanceNameToBeanDetails;
     private boolean isBeanAdded;
     private Set<String> classesToAddAppCox;
+    private List<String> blackListInstances;
+    private boolean isProjectBlackListing;
+
 
     public Scanner() {
         classNameToPath = new HashMap<>();
         instanceNameToBeanDetails = new HashMap<>();
         classesToAddAppCox = new HashSet<>();
         isBeanAdded = false;
+        blackListInstances = new ArrayList<>();
+        isProjectBlackListing = false;
     }
 
     public void scan(String javaDir) throws IOException {
+        BlackListUtil blackListUtil = new BlackListUtil(getResourcesPathFromJavaPath(javaDir));
+        if(blackListUtil.isBlackListFileExist()) {
+            if(blackListUtil.needEnforceBlackList()) {
+                blackListUtil.parseBlackListFile();
+                isProjectBlackListing = true;
+            }
+        }
+        blackListInstances = BlackListUtil.getBlackListInstances();
+
         findClasses(javaDir);
         findNewProjectInstancesCreation();
         createBeanMethods();
         handleAppCtxWriteToNeededClasses();
+    }
+
+    private String getResourcesPathFromJavaPath(String javaDir) {
+        String[] elements = javaDir.split("/");
+        elements[elements.length - 1] = "resources";
+        StringBuilder str = new StringBuilder();
+        for(int i = 0; i < elements.length; i++) {
+            if(i == elements.length - 1) {
+                str.append(elements[i]);
+                break;
+            }
+            else {
+                str.append(elements[i]);
+                str.append("/");
+            }
+        }
+        return str.toString();
     }
 
     private void handleAppCtxWriteToNeededClasses() throws IOException {
@@ -208,19 +239,30 @@ public class Scanner {
             if(line.contains("new")) {
                 elements = line.split(" ");
                 className = findClassName(elements);
-                if(checkIfClassIsInternal(className)) {
-                    instanceName = findInstanceName(elements);
-                    NewBeanDetails beanDetails = new NewBeanDetails(key, line, instanceName, className);;
-                    classesToAddAppCox.add(key);
-                    if(instanceNameToBeanDetails.containsKey(instanceName)) {
-                        String beanName = BeanNamesGenerator.getNewBeanName();
-                        beanDetails = new NewBeanDetails(key, line, beanName, className);
-                        instanceNameToBeanDetails.put(beanName, beanDetails);
+                instanceName = findInstanceName(elements);
+                if(isProjectBlackListing) {
+                    if(verifyInstanceIsNotBlackListed(instanceName)) {
+                        if(checkIfClassIsInternal(className)) {
+                            NewBeanDetails beanDetails = new NewBeanDetails(key, line, instanceName, className);;
+                            classesToAddAppCox.add(key);
+                            if(checkIfClassIsInternal(className)) {
+                                instanceName = findInstanceName(elements);
+                                instanceNameToBeanDetails.put(instanceName, beanDetails);
+                                replaceLineWithNew.put(line, getBeanAccessStr(className, instanceName));
+                            }
+                        }
                     }
-                    else {
-                        instanceNameToBeanDetails.put(instanceName, beanDetails);
+                }
+                else {
+                    if(checkIfClassIsInternal(className)) {
+                        NewBeanDetails beanDetails = new NewBeanDetails(key, line, instanceName, className);;
+                        classesToAddAppCox.add(key);
+                        if(checkIfClassIsInternal(className)) {
+                            instanceName = findInstanceName(elements);
+                            instanceNameToBeanDetails.put(instanceName, beanDetails);
+                            replaceLineWithNew.put(line, getBeanAccessStr(className, instanceName));
+                        }
                     }
-                    replaceLineWithNew.put(line, getBeanAccessStr(className, instanceName));
                 }
             }
             index++;
@@ -229,6 +271,20 @@ public class Scanner {
             replaceLines(cFile, item.getKey(), item.getValue(), allLines);
         }
         writeNewContentToFile(cFile, allLines);
+    }
+
+    private boolean verifyInstanceIsNotBlackListed(String instanceName) {
+        if(!isProjectBlackListing) {
+            return false;
+        }
+        else {
+            if(blackListInstances.contains(instanceName)) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
     }
 
     private void replaceLines(File cFile, String lineToRemove, String lineToWrite, List<String> allLines) {
