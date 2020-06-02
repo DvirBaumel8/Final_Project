@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,6 +23,15 @@ public class Scanner {
     private Set<String> classesToAddAppCox;
     private List<String> blackListInstances;
     private boolean isProjectBlackListing;
+
+    private static String OS = System.getProperty("os.name").toLowerCase();
+    private static boolean isWindows() {
+        return (OS.indexOf("win") >= 0);
+    }
+
+    private static boolean isMac() {
+        return (OS.indexOf("mac") >= 0);
+    }
 
 
     public Scanner() {
@@ -49,20 +60,16 @@ public class Scanner {
     }
 
     private String getResourcesPathFromJavaPath(String javaDir) {
-        String[] elements = javaDir.split("/");
-        elements[elements.length - 1] = "resources";
-        StringBuilder str = new StringBuilder();
-        for(int i = 0; i < elements.length; i++) {
-            if(i == elements.length - 1) {
-                str.append(elements[i]);
-                break;
-            }
-            else {
-                str.append(elements[i]);
-                str.append("/");
-            }
-        }
-        return str.toString();
+
+        Path javaDirPath = Paths.get(javaDir);
+        StringBuilder pathOfResources = new StringBuilder();
+
+        if(isMac())
+            pathOfResources.append(File.separator + javaDirPath.getParent() + File.separator + "resources");
+        if(isWindows())
+            pathOfResources.append(javaDirPath.getParent() + File.separator + "resources");
+
+        return pathOfResources.toString();
     }
 
     private void handleAppCtxWriteToNeededClasses() throws IOException {

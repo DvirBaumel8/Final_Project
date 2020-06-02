@@ -17,6 +17,8 @@ public class Manager {
     private SourceProject sourceProject;
     private EditProject editProject;
     private UnitTestValidator unitTestValidator;
+    private String projectDirectoryPath;
+
 
     public static Manager getInstance() {
         if(manager == null) {
@@ -29,11 +31,21 @@ public class Manager {
         filesUtil = new FilesUtil();
     }
 
-    public void start(String projectPath) throws IOException {
-        init(projectPath);
+    public void start() throws Exception {
+        getProjectFromUser();
+        init(projectDirectoryPath);
         scanProject();
         unitTestValidator.runUnitTests(editProject.getEditProjectFiles());
     }
+
+    private void getProjectFromUser() throws Exception {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        System.out.println("Enter project path:");
+        projectDirectoryPath = scanner.nextLine();
+        if(!validateProjectDirectoryPath(projectDirectoryPath)) {
+            throw new Exception(getProjectPathErrorMessage());
+        }
+        }
 
     private void scanProject() throws IOException {
         Scanner scanner = new Scanner();
@@ -88,7 +100,7 @@ public class Manager {
     }
 
     public String getProjectPathErrorMessage() {
-        return null;
+        return "error test";
     }
 
     public void addFileToEditProject(File editFile) {

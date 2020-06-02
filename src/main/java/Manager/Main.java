@@ -2,19 +2,16 @@ package Manager;
 
 public class Main {
     public static void main(String[] args) {
-        //String projectDirectoryPath = "/Users/db384r/Dev/Final_Project/projects to convert/3/without spring";
-        String projectDirectoryPath = "C:\\Users\\amira\\Desktop\\projects to convert\\1\\without spring";
         Manager manager = Manager.getInstance();
-        if(manager.validateProjectDirectoryPath(projectDirectoryPath)) {
             try {
-                manager.start(projectDirectoryPath);
+                manager.start();
             }
             catch(Exception e) {
                 e.printStackTrace();
             }
         }
-        else {
-            System.out.println(manager.getProjectPathErrorMessage());
-        }
     }
-}
+
+
+// test "/Users/db384r/Dev/Final_Project/projects to convert/3/without spring";
+// test "C:\\Users\\amira\\Desktop\\projects to convert\\1\\without spring";
