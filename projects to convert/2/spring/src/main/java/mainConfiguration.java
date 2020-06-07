@@ -34,8 +34,6 @@ public class mainConfiguration {
 
     @Bean
     public List<Actor> actors() {
-        List<Actor> actors = new ArrayList<>();
-
-        return actors;
+        return new ArrayList<>();
     }
 }

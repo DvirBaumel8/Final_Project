@@ -2,9 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActorsRepo {
+    private static List<Actor> actorsList = new ArrayList<>();
 
     public static List<Actor> getStaticActors() {
-        List<Actor> staticActors = new ArrayList<>();
         Actor actor1 = new Actor(330, "Brad pit", 40, Actor.Gender.Male);
 
         //@BlackList
@@ -18,15 +18,14 @@ public class ActorsRepo {
         actor3.setAge(44);
         actor3.setGender(Actor.Gender.Male);
 
-        staticActors.add(actor1);
-        staticActors.add(actor2);
-        staticActors.add(actor3);
+        actorsList.add(actor1);
+        actorsList.add(actor2);
+        actorsList.add(actor3);
 
-        return staticActors;
+        return actorsList;
     }
 
     public List<Actor> getActors() {
-        List<Actor> actors = new ArrayList<>();
         Actor actor4 = new Actor(330, "Brad pit", 40, Actor.Gender.Male);
 
         Actor actor5 = new Actor();
@@ -39,10 +38,10 @@ public class ActorsRepo {
         actor6.setAge(44);
         actor6.setGender(Actor.Gender.Male);
 
-        actors.add(actor4);
-        actors.add(actor5);
-        actors.add(actor6);
+        actorsList.add(actor4);
+        actorsList.add(actor5);
+        actorsList.add(actor6);
 
-        return actors;
+        return actorsList;
     }
 }

@@ -7,9 +7,9 @@ public class Main {
     private static ApplicationContext context = new AnnotationConfigApplicationContext(MainConfiguration.class);
 
     public static void main(String[] args) {
-        ActorsRepo actorsRepo = context.getBean("actorsFactory", ActorsRepo.class);
+        ActorsRepo actorsRepo = context.getBean("actorsRepo", ActorsRepo.class);
         List<Actor> actors = actorsRepo.getActors();
-        List<Actor> staticActors = actorsRepo.getStaticActors();
+        List<Actor> staticActors = ActorsRepo.getActorsStatic();;
 
         for(Actor actor : actors) {
             System.out.println(actor);
