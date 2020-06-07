@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ProductRepositoryImpl implements ProductRepository {
     public List<Product> getAllProducts() {
-        List<Product> productList = new ArrayList<Product>();
+        List<Product> productList = new ArrayList<>();
 
         productList.add(new Product("Laptop", 100, 2));
         productList.add(new Product("Phone", 250, 3));

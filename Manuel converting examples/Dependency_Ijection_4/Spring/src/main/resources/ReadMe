@@ -1,0 +1,9 @@
+Dependency Injection - Example 4
+
+This example demonstrate how spring can help with handling Service with DB elements.
+The MainConfiguration file is import beans from ProductsConfiguration file.
+ProductConfiguration file creating ProductRepoImpl, ProductServiceImpl.
+ProductServiceImpl injected with ProductRepoImpl obj.
+The Main class inside main method creating appContext instance, get the service bean.
+Here is the magic - without let the main know which method I used to implement my DB (ProductRepository) - I can get all the products fom the service.
+In the future, in case I will want to change the way I managed my DB, I'll have to change just the way I implement ProductRepository class, but nothing will be change in the main class.

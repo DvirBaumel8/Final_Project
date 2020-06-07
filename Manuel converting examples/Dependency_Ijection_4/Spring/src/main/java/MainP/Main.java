@@ -13,21 +13,15 @@ public class Main {
         ApplicationContext appContext = new AnnotationConfigApplicationContext(MainConfiguration.class);
         try {
             ProductService productService = appContext.getBean(ProductService.class);
-            List<Product> productsList = productService.getAllProducts();
             System.out.println("Products:");
 
-            for (Product product : productsList) {
+            for (Product product : productService.getAllProducts()) {
                 System.out.println(product.getName());
             }
         }
         catch (BeansException ex) {
             System.out.println("Something went wrong..");
         }
-
-
-
-
-
 
     }
 }
