@@ -1,0 +1,8 @@
+Constructor Injection - Example 2
+
+This example demonstrate spring constructor autowire injection.
+Package Vehicles contains a configuration file, there creating beans - 2 engines type, 2 fourth wheels types.
+App also creating two components that extends Car with autowire constructor, input names of objects must be the same as declared in configuration file.
+MainConfigurationFile is importing beans from VehiclesConfiguration.
+Main class inside main method creating AppContext instance, get the CarV6, CarV4 beans already with constructor parameters injection.
+The cars going through test, and in case the tests passed, app print the cars.
