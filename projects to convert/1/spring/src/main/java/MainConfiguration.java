@@ -26,8 +26,8 @@ public class MainConfiguration {
     }
 
     @Bean
-    public Actor TomHenks() {
-        Actor actor3 = new Actor(332, "Tom Henks");
+    public Actor TomHanks() {
+        Actor actor3 = new Actor(332, "Tom Hanks");
         actor3.setGender(Actor.Gender.Male);
         actor3.setAge(44);
 
@@ -37,9 +37,6 @@ public class MainConfiguration {
     @Bean
     public List<Actor> actors() {
         List<Actor> actors = new ArrayList<>();
-        actors.add(BradPit());
-        actors.add(MariaKarry());
-        actors.add(TomHenks());
 
         return actors;
     }

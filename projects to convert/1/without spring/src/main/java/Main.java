@@ -3,10 +3,8 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        @￿BlackList
         Actor actor1 = new Actor(330, "Brad pit", 40, Actor.Gender.Male);
 
-        @Prototype
         Actor actor2 = new Actor();
         actor2.setID(331);
         actor2.setFullName("Maria karry");
