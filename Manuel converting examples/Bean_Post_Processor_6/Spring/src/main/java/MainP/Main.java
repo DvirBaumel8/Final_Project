@@ -10,7 +10,6 @@ public class Main {
     public static void main(String[] args) {
         ApplicationContext ctx = new AnnotationConfigApplicationContext(MainConfiguration.class);
         Company[] companies = new Company[2];
-        BeanPostProcessorImpl bppImpl = new BeanPostProcessorImpl();
 
         try {
             companies[0] = ctx.getBean("cisco", Company.class);

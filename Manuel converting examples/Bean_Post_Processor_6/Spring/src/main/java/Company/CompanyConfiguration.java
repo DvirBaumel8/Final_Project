@@ -12,7 +12,7 @@ public class CompanyConfiguration {
     @Bean
     public Company cisco() {
         Company company = new Company("Cisco", "Tel-Aviv", new CiscoCompanyValidatorImpl());
-        List<Employee> ciscoEmployees = new ArrayList<Employee>();
+        List<Employee> ciscoEmployees = new ArrayList<>();
         ciscoEmployees.add(employee1());
         ciscoEmployees.add(employee2());
         ciscoEmployees.add(employee3());
@@ -30,7 +30,7 @@ public class CompanyConfiguration {
     @Bean
     public Company waze() {
         Company company = new Company("Waze", "Tel-Aviv", new WazeCompanyValidatorImpl());
-        List<Employee> wazeEmployees = new ArrayList<Employee>();
+        List<Employee> wazeEmployees = new ArrayList<>();
         wazeEmployees.add(employee2());
         wazeEmployees.add(employee3());
         wazeEmployees.add(employee4());

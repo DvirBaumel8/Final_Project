@@ -1,0 +1,20 @@
+Bean Post Processor - example 6
+
+This example demonstrate spring bean post processor ability.
+Bean post processor let the developer the ability to get each one of the beans in the system before his creation, and after his creation.
+This example try to simulate a companies, with employees (they are kind of person).
+There is a company board that can test the company register process to verify that the company and the company's employees are legal.
+This example choose to test the companies and the employee during the bean creation stage. (Exactly the ability of the bean post processor).
+
+MainConfiguration file creating 10 different employees, 2 companies with unique company validator impl.
+The companies get an employees list.
+In addition, Bean from kind BeanPostProcessorImpl is created.
+
+When the app is upload, and start to running, spring creating the beans that define in the configuration file.
+During the creation stage, each one of the beans pass through the methods of BeanPostProcessorImpl (before - postProcessBeforeInitialization, after - postProcessAfterInitialization).
+In this stage we decide to pass each employee and company the validation they have to pass, in case something went wrong, the system don't even started.
+The company board can't allow any option to be register as invalid employee or invalid company.
+
+Main class inside main method is creating appContext instance, get the companies beans (waze, cisco).
+In this stage we are know that all the companies, and all the employee passed the tests of the company board.
+Then because everything valid, we print the companies.
