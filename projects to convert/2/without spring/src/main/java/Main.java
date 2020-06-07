@@ -23,12 +23,12 @@ public class Main {
         actor3.setAge(44);
         actor3.setGender(Actor.Gender.Male);
 
-        List<Actor> actors = new ArrayList<>();
-        actors.add(actor1);
-        actors.add(actor2);
-        actors.add(actor3);
+        List<Actor> actorsList = new ArrayList<>();
+        actorsList.add(actor1);
+        actorsList.add(actor2);
+        actorsList.add(actor3);
 
-        return actors;
+        return actorsList;
     }
 
 }

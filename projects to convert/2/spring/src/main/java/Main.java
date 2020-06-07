@@ -15,6 +15,13 @@ public class Main {
     }
 
     public static List<Actor> createActorsList() {
-        return context.getBean("actors", List.class);
+        Actor actor1 = context.getBean("BradPit", Actor.class);
+        Actor actor2 = context.getBean("MariaKarry", Actor.class);
+        Actor actor3 = context.getBean("TomHanks", Actor.class);
+        List<Actor> actorsList = context.getBean("actorsList", List.class);
+        actorsList.add(actor1);
+        actorsList.add(actor2);
+        actorsList.add(actor3);
+        return actorsList;
     }
 }
