@@ -1,0 +1,10 @@
+Factory Method - Example 5
+
+This example demonstrate spring factory method ability.
+In the MainConfiguration file we create 4 beans- the encrypt factory, the encrypts.
+Returned type is Encrypt to allow polymorphism between all kind of encrypts.
+The factory created and get all king of the encrypts in the system.
+Main class inside main method creating an appContext instance, preparing a test array (to be encrypt by the system encrypts).
+Get with the appContext the three Encrypt beans.
+Each one of them encrypt the array with his own encrypt method.
+In the future, in case we will want to add more encrypts, it will be very easy, thanks to spring.
