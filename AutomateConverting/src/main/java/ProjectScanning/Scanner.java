@@ -9,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.Set;
 
 public class Scanner {
     private Map<String, String> classNameToPath;
-    private Map<String, NewBeanDetails> instanceNameToBeanDetails;
+    private Map<String, BeanDetails> instanceNameToBeanDetails;
     private boolean isBeanAdded;
     private Set<String> classesToAddAppCox;
     private List<String> blackListInstances;
@@ -95,10 +94,35 @@ public class Scanner {
         File mainConf = getMainConfigurationFile();
         String cBeanMethodStr;
 
-        for(Map.Entry<String, NewBeanDetails> entry : instanceNameToBeanDetails.entrySet()) {
+        for(Map.Entry<String, BeanDetails> entry : instanceNameToBeanDetails.entrySet()) {
             cBeanMethodStr = createBeanMethodStr(entry.getKey(), entry.getValue());
             addMethodToFile(mainConf, cBeanMethodStr);
+            if(isListObj(entry)) {
+                addListImportsToConfFile(entry.getValue().getConfigurationFilePath());
+            }
         }
+
+    }
+
+    private void addListImportsToConfFile(String configurationFilePath) throws IOException {
+        File file = new File(configurationFilePath);
+        List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+        int index = lines.indexOf("import org.springframework.context.annotation.Configuration;");
+        index++;
+
+        if(!lines.contains("import java.util.List;")) {
+           lines.add(index, "import java.util.List;");
+        }
+        if(!lines.contains("import java.util.ArrayList;")) {
+            lines.add(index, "import java.util.ArrayList;");
+        }
+
+        writeNewContentToFile(file, lines);
+    }
+
+
+    private boolean isListObj(Map.Entry<String, BeanDetails> entry) {
+        return entry.getValue().getClassName().contains("List");
     }
 
     private void addMethodToFile(File mainConf, String cBeanMethodStr) throws IOException {
@@ -119,7 +143,6 @@ public class Scanner {
         }
         lines.add(index, cBeanMethodStr);
         writeNewContentToFile(mainConf, lines);
-
     }
 
     private void writeNewContentToFile(File mainConf, List<String> lines) throws IOException {
@@ -151,13 +174,13 @@ public class Scanner {
         writeNewContentToFile(mainConf, lines);
     }
 
-    private String createBeanMethodStr(String instanceName, NewBeanDetails beanDetails) throws IOException {
-        String origClass = beanDetails.getOrigClass();
+    private String createBeanMethodStr(String instanceName, BeanDetails beanDetails) throws IOException {
+        String origClass = beanDetails.getClassName();
         StringBuilder str = new StringBuilder();
         str.append("@Bean\n");
         str.append(String.format("public %s %s() {\n", origClass, instanceName));
-        String constructorArgs = beanDetails.getCreationObjectConstructorArgs();
-        str.append(String.format("%s %s = new %s(%s);\n", origClass, instanceName, origClass, constructorArgs));
+        String constructorArgs = beanDetails.getConstructorArgs();
+        str.append(String.format("%s %s = new %s(%s);\n", origClass, instanceName, beanDetails.getImplName(), constructorArgs));
         String settersStr = getSettersStrs(beanDetails);
         str.append(settersStr);
         str.append(String.format("return %s;\n}\n", instanceName));
@@ -165,7 +188,7 @@ public class Scanner {
         return str.toString();
     }
 
-    private String getSettersStrs(NewBeanDetails beanDetails) throws IOException {
+    private String getSettersStrs(BeanDetails beanDetails) throws IOException {
         File file = null;
         String createdUnderClass = beanDetails.getCreatedUnderClass();
         for(Map.Entry<String, String> entry : classNameToPath.entrySet()) {
@@ -175,7 +198,7 @@ public class Scanner {
             }
         }
 
-        return getSettersStrs(file, beanDetails.getBeanName());
+        return getSettersStrs(file, beanDetails.getInstanceName());
     }
 
     private String getSettersStrs(File file, String beanName) throws IOException {
@@ -214,19 +237,15 @@ public class Scanner {
     }
 
     private void findNewProjectInstancesCreation() throws IOException {
-
         for (Map.Entry<String, String> entry : classNameToPath.entrySet()) {
             if (entry.getKey().equals("MainConfiguration")) {
                 continue;
             }
-            handleInternalClassScan(entry.getValue(), entry.getKey());
+            handleInternalClassScan(entry.getKey(), entry.getValue());
         }
     }
 
-    private void handleInternalClassScan(String classPath, String key) throws IOException {
-        String[] elements;
-        String className;
-        String instanceName;
+    private void handleInternalClassScan(String createsClass, String classPath) throws IOException {
         Map<String, String> replaceLineWithNew = new HashMap<>();
         File cFile = new File(classPath);
         List<String> allLines = Files.readAllLines(cFile.toPath(), StandardCharsets.UTF_8);
@@ -237,15 +256,14 @@ public class Scanner {
                 if(checkIFNewInstanceIsBlackList(allLines, index)) {
                     continue;
                 }
-                elements = line.split(" ");
-                className = findClassName(elements);
-                instanceName = findInstanceName(elements);
-                if(checkIfClassIsInternal(className)) {
-                    NewBeanDetails beanDetails = new NewBeanDetails(key, line, instanceName, className);;
-                    classesToAddAppCox.add(key);
-                    instanceName = findInstanceName(elements);
-                    instanceNameToBeanDetails.put(instanceName, beanDetails);
-                    replaceLineWithNew.put(line, getBeanAccessStr(className, instanceName));
+                BeanDetails beanDetails = findAllInstanceElements(line, allLines);
+
+                if(isInternalClass(beanDetails)) {
+                    beanDetails.setConfigurationFilePath(classNameToPath.get("MainConfiguration"));
+                    beanDetails.setCreatedUnderClass(createsClass);
+                    classesToAddAppCox.add(createsClass);
+                    instanceNameToBeanDetails.put(beanDetails.getInstanceName(), beanDetails);
+                    replaceLineWithNew.put(line, getBeanAccessStr(beanDetails));
                 }
             }
             index++;
@@ -254,6 +272,26 @@ public class Scanner {
             replaceLines(cFile, item.getKey(), item.getValue(), allLines);
         }
         writeNewContentToFile(cFile, allLines);
+    }
+
+    private BeanDetails findAllInstanceElements(String line, List<String> allLines) {
+        String temp;
+        String className;
+        String instanceName;
+        String implName;
+        String constructorArgs;
+
+        temp = line.trim();
+        temp = temp.replace(", ", ",");
+        String[] elements = temp.split(" ");
+
+        //handle data structure
+        className = elements[0];
+        instanceName = elements[1];
+        implName = elements[4].split("\\(")[0];
+        constructorArgs = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
+
+        return new BeanDetails(className, instanceName, implName, constructorArgs, line);
     }
 
     private boolean checkIFNewInstanceIsBlackList(List<String> allLines, int index) {
@@ -276,8 +314,14 @@ public class Scanner {
         allLines.add(index, lineToWrite);
     }
 
-    private String getBeanAccessStr(String className, String instanceName) {
-        return String.format("      %s %s = context.getBean(\"%s\", %s.class);", className, instanceName, instanceName, className);
+    private String getBeanAccessStr(BeanDetails beanDetails) {
+        if(beanDetails.isDataStructure()) {
+            return String.format("      %s %s = context.getBean(\"%s\", %s.class);", beanDetails.getClassName(), beanDetails.getInstanceName(), beanDetails.getInstanceName(), beanDetails.getClassName().split("<")[0]);
+        }
+        else {
+            return String.format("      %s %s = context.getBean(\"%s\", %s.class);", beanDetails.getClassName(), beanDetails.getInstanceName(), beanDetails.getInstanceName(), beanDetails.getClassName());
+        }
+
 
     }
 
@@ -295,20 +339,10 @@ public class Scanner {
         return elements[index];
     }
 
-    private String findClassName(String[] elements) {
-            for(int i = 0; i < elements.length; i++) {
-                if(elements[i].equals("new")) {
-                    i++;
-                    return elements[i].split(String.format("\\("))[0];
-                }
-            }
-            return null;
-    }
-
-    private boolean checkIfClassIsInternal(String className) { // List<Actor>
-        if(isDataStructureInstance(className)) {
-            if(checkIfClassNameExist(className)) {
-                if(checkIfListTypeIsInternal(className)) {
+    private boolean isInternalClass(BeanDetails beanDetails) {
+        if(isDataStructureInstance(beanDetails)) {
+            if(checkIfClassNameExist(beanDetails.getClassName())) {
+                if(checkIfListTypeIsInternal(beanDetails.getClassName())) {
                     return true;
                 }
             }
@@ -317,6 +351,20 @@ public class Scanner {
             }
 
         }
+        return checkIfSimpleTypeISInternal(beanDetails.getClassName());
+    }
+
+    private boolean checkIfClassNameExist(String className) {
+        String str = className.substring(className.indexOf("<") + 1, className.indexOf(">"));
+        return str.length() > 0;
+    }
+
+    private boolean checkIfListTypeIsInternal(String className) {
+       String str = className.substring(className.indexOf("<") + 1, className.indexOf(">"));
+       return checkIfSimpleTypeISInternal(str);
+    }
+
+    private boolean checkIfSimpleTypeISInternal(String className) {
         for(Map.Entry<String, String> entry : classNameToPath.entrySet()) {
             if(entry.getKey().equals(className)) {
                 return true;
@@ -325,22 +373,9 @@ public class Scanner {
         return false;
     }
 
-    private boolean checkIfClassNameExist(String className) {
-        String str = className.substring(className.indexOf("<") + 1, className.indexOf(">"));
-        return str.length() > 0;
-    }
-
-    public static boolean checkIfListTypeIsInternal(String className) {
-       String str = className.substring(className.indexOf("<") + 1, className.indexOf(">"));
-        return false;
-        //return checkIfClassIsInternal(str);
-    }
-
-    public static void main(String[] args) {
-        checkIfListTypeIsInternal("List<Actor>");
-    }
-    private boolean isDataStructureInstance(String className) {
-        if(className.contains("List")) {
+    private boolean isDataStructureInstance(BeanDetails beanDetails) {
+        if(beanDetails.getClassName().contains("List")) {
+            beanDetails.setDataStructure(true);
             return true;
         }
         return false;

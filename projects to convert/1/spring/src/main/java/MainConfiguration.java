@@ -1,6 +1,5 @@
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,7 @@ public class MainConfiguration {
     }
 
     @Bean
-    public List<Actor> actorsList() { 
+    public List<Actor> actorsList() {
         return new ArrayList<>();
     }
 

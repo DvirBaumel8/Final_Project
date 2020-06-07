@@ -1,8 +1,16 @@
 import org.springframework.context.annotation.Configuration;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.context.annotation.Bean;
 
 @Configuration
 public class MainConfiguration {
+@Bean
+public List<Actor> actorsList() {
+List<Actor> actorsList = new ArrayList<>();
+return actorsList;
+}
+
 @Bean
 public Actor actor1() {
 Actor actor1 = new Actor(330, "Brad pit", 40, Actor.Gender.Male);

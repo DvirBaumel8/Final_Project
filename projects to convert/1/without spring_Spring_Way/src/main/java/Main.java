@@ -12,13 +12,14 @@ public class Main {
 
       Actor actor3 = context.getBean("actor3", Actor.class);
 
-        List<Actor> actors = new ArrayList<>();
-        actors.add(actor1);
-        actors.add(actor2);
-        actors.add(actor3);
+      List<Actor> actorsList = context.getBean("actorsList", List.class);
+        actorsList.add(actor1);
+        actorsList.add(actor2);
+        actorsList.add(actor3);
 
-        for (Actor actor : actors) {
+        for (Actor actor : actorsList) {
             System.out.println(actor);
         }
     }
+
 }
