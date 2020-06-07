@@ -1,0 +1,8 @@
+Dependency Injection - Example 2
+
+This example demonstrate dependency autowire injection of spring.
+MainConfiguration file import beans from MovieConfiguration file that import beans from ActorsConfiguration file.
+ActorsConfiguration file creating 3 Actors.
+MoviesConfiguration file get autowire injection of the three actors.
+This file creating 2 movies each one of them used the setActors, to inject the actors.
+Main class inside main method creating appContext instance, and get the two movies beans, then print them.
