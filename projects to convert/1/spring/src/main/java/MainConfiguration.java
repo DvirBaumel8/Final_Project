@@ -35,7 +35,7 @@ public class MainConfiguration {
     }
 
     @Bean
-    public List<Actor> actors() {
+    public List<Actor> actorsList() {
         List<Actor> actors = new ArrayList<>();
 
         return actors;

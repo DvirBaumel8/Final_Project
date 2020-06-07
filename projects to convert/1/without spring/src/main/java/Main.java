@@ -15,7 +15,7 @@ public class Main {
         actor3.setAge(44);
         actor3.setGender(Actor.Gender.Male);
 
-        List<Actor> actors = new ArrayList<>();
+        List<Actor> actorsList = new ArrayList<>();
         actors.add(actor1);
         actors.add(actor2);
         actors.add(actor3);

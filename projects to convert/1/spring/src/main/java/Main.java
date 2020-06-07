@@ -10,7 +10,7 @@ public class Main {
         Actor actor1 = context.getBean("BradPit", Actor.class);
         Actor actor2 = context.getBean("MariaKarry", Actor.class);
         Actor actor3 = context.getBean("TomHanks", Actor.class);
-        List<Actor> actors = context.getBean("actors", List.class);
+        List<Actor> actors = context.getBean("actorsList", List.class);
 
         actors.add(actor1);
         actors.add(actor2);
