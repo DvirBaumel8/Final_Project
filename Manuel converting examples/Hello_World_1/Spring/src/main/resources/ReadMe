@@ -1,0 +1,9 @@
+Hello World - Example 1
+
+This example demonstrate simple bean creation of HelloWorld class.
+While the creation stage we set a message to helloWorld bean.
+Main class inside main method:
+    1. Creating an appContext instance.
+    2. import helloWorld bean.
+    3. Get the message.
+    4. Print the message.
