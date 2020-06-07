@@ -16,11 +16,11 @@ public class Main {
         actor3.setGender(Actor.Gender.Male);
 
         List<Actor> actorsList = new ArrayList<>();
-        actors.add(actor1);
-        actors.add(actor2);
-        actors.add(actor3);
+        actorsList.add(actor1);
+        actorsList.add(actor2);
+        actorsList.add(actor3);
 
-        for (Actor actor : actors) {
+        for (Actor actor : actorsList) {
             System.out.println(actor);
         }
     }
