@@ -78,6 +78,7 @@ public class Scanner {
     private void createBeanMethods() throws IOException {
         File mainConf = getMainConfigurationFile();
         String cBeanMethodStr;
+        addScopeImportToConfFile(mainConf);
 
         for(Map.Entry<String, BeanDetails> entry : instanceNameToBeanDetails.entrySet()) {
             cBeanMethodStr = createBeanMethodStr(entry.getKey(), entry.getValue());
@@ -87,6 +88,19 @@ public class Scanner {
             }
         }
 
+    }
+
+    private void addScopeImportToConfFile(File mainConf) throws IOException {
+        List<String> lines = Files.readAllLines(mainConf.toPath(), StandardCharsets.UTF_8);
+        int index = 0;
+        for(int i =0; i < lines.size(); i++) {
+            if(lines.get(i).contains("org.springframework.context.annotation.Bean"));
+            index = i + 1;
+            break;
+        }
+        lines.add(index, "import org.springframework.context.annotation.Scope;");
+
+        writeNewContentToFile(mainConf, lines);
     }
 
     private void addListImportsToConfFile(String configurationFilePath) throws IOException {
