@@ -9,6 +9,7 @@ public class BeanDetails {
     private String line;
     private String configurationFilePath;
     private boolean isDataStructure;
+    private boolean isPrototypeInst;
 
     public BeanDetails(String className, String instanceName, String implName, String constructorArgs, String line) {
         ClassName = className;
@@ -72,5 +73,13 @@ public class BeanDetails {
 
     public void setDataStructure(boolean dataStructure) {
         isDataStructure = dataStructure;
+    }
+
+    public boolean isPrototypeInst() {
+        return isPrototypeInst;
+    }
+
+    public void setPrototypeInst(boolean prototypeInst) {
+        isPrototypeInst = prototypeInst;
     }
 }

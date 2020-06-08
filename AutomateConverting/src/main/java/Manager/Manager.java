@@ -41,7 +41,7 @@ public class Manager {
     private void getProjectFromUser() throws Exception {
         java.util.Scanner scanner = new java.util.Scanner(System.in);
         System.out.println("Enter project path:");
-        projectDirectoryPath = "/Users/db384r/Dev/Final_Project/Project/Final_Project/projects to convert/1/without spring";
+        projectDirectoryPath = "/Users/db384r/Dev/Final_Project/Project/Final_Project/projects to convert/3/without spring";
         if(!validateProjectDirectoryPath(projectDirectoryPath)) {
             throw new Exception(getProjectPathErrorMessage());
         }

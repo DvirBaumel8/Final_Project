@@ -6,10 +6,9 @@ import java.util.List;
 
 public class ActorsRepo {
     private static ApplicationContext context = new AnnotationConfigApplicationContext(MainConfiguration.class);
-    private static List<Actor> actorsList;
 
     public static List<Actor> getActorsStatic() {
-        actorsList = context.getBean("actorsList", List.class);
+        List<Actor> actorsList = context.getBean("actorsList", List.class);
 
         Actor actor1 = context.getBean("BradPit", Actor.class);
         Actor actor2 = context.getBean("MariaKarry", Actor.class);
@@ -23,7 +22,7 @@ public class ActorsRepo {
     }
 
     public List<Actor> getActors() {
-        actorsList = context.getBean("actorsList", List.class);
+        List<Actor> actorsList = context.getBean("actorsList", List.class);
 
         Actor actor1 = context.getBean("BradPit", Actor.class);
         Actor actor2 = context.getBean("MariaKarry", Actor.class);

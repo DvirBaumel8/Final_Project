@@ -21,7 +21,6 @@ public class Scanner {
     private Map<String, BeanDetails> instanceNameToBeanDetails;
     private boolean isBeanAdded;
     private Set<String> classesToAddAppCox;
-    private List<String> blackListInstances;
 
     private static String OS = System.getProperty("os.name").toLowerCase();
     private static boolean isWindows() {
@@ -38,7 +37,6 @@ public class Scanner {
         instanceNameToBeanDetails = new HashMap<>();
         classesToAddAppCox = new HashSet<>();
         isBeanAdded = false;
-        blackListInstances = new ArrayList<>();
     }
 
     public void scan(String javaDir) throws IOException {
@@ -46,19 +44,6 @@ public class Scanner {
         findNewProjectInstancesCreation();
         createBeanMethods();
         handleAppCtxWriteToNeededClasses();
-    }
-
-    private String getResourcesPathFromJavaPath(String javaDir) {
-
-        Path javaDirPath = Paths.get(javaDir);
-        StringBuilder pathOfResources = new StringBuilder();
-
-        if(isMac())
-            pathOfResources.append(File.separator + javaDirPath.getParent() + File.separator + "resources");
-        if(isWindows())
-            pathOfResources.append(javaDirPath.getParent() + File.separator + "resources");
-
-        return pathOfResources.toString();
     }
 
     private void handleAppCtxWriteToNeededClasses() throws IOException {
@@ -178,6 +163,9 @@ public class Scanner {
         String origClass = beanDetails.getClassName();
         StringBuilder str = new StringBuilder();
         str.append("@Bean\n");
+        if(beanDetails.isPrototypeInst()) {
+            str.append("@Scope(\"prototype\")\n");
+        }
         str.append(String.format("public %s %s() {\n", origClass, instanceName));
         String constructorArgs = beanDetails.getConstructorArgs();
         str.append(String.format("%s %s = new %s(%s);\n", origClass, instanceName, beanDetails.getImplName(), constructorArgs));
@@ -250,10 +238,13 @@ public class Scanner {
         File cFile = new File(classPath);
         List<String> allLines = Files.readAllLines(cFile.toPath(), StandardCharsets.UTF_8);
         int index = 0;
+        List<Integer> linesToRemove = new ArrayList<>();
 
         for(String line : allLines) {
             if(line.contains("new")) {
                 if(checkIFNewInstanceIsBlackList(allLines, index)) {
+                    linesToRemove.add(index - 1);
+                    index++;
                     continue;
                 }
                 BeanDetails beanDetails = findAllInstanceElements(line, allLines);
@@ -264,14 +255,30 @@ public class Scanner {
                     classesToAddAppCox.add(createsClass);
                     instanceNameToBeanDetails.put(beanDetails.getInstanceName(), beanDetails);
                     replaceLineWithNew.put(line, getBeanAccessStr(beanDetails));
+                    beanDetails.setPrototypeInst(checkIfInstancePrototype(allLines, index));
+                    if(beanDetails.isPrototypeInst()) {
+                        linesToRemove.add(index - 1);
+                    }
                 }
             }
             index++;
         }
+        String empty = "";
+        int counter = 0;
+        for(Integer indexBlack : linesToRemove) {
+            allLines.remove(indexBlack - counter);
+            counter++;
+        }
         for(Map.Entry<String, String> item : replaceLineWithNew.entrySet()) {
-            replaceLines(cFile, item.getKey(), item.getValue(), allLines);
+            replaceLines(item.getKey(), item.getValue(), allLines);
         }
         writeNewContentToFile(cFile, allLines);
+    }
+
+    private boolean checkIfInstancePrototype(List<String> allLines, int index) {
+        String lineBeforeCreation = allLines.get(index - 1);
+
+        return lineBeforeCreation.contains("@prototype");
     }
 
     private BeanDetails findAllInstanceElements(String line, List<String> allLines) {
@@ -288,7 +295,12 @@ public class Scanner {
         //handle data structure
         className = elements[0];
         instanceName = elements[1];
-        implName = elements[4].split("\\(")[0];
+        if(elements.length <=4) {
+            implName = elements[3].split("\\(")[0];
+        }
+        else {
+            implName = elements[4].split("\\(")[0];
+        }
         constructorArgs = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
 
         return new BeanDetails(className, instanceName, implName, constructorArgs, line);
@@ -301,7 +313,7 @@ public class Scanner {
     }
 
 
-    private void replaceLines(File cFile, String lineToRemove, String lineToWrite, List<String> allLines) {
+    private void replaceLines(String lineToRemove, String lineToWrite, List<String> allLines) {
         int index = 0;
 
         for(String line : allLines) {
@@ -323,20 +335,6 @@ public class Scanner {
         }
 
 
-    }
-
-    private String findInstanceName(String[] elements) {
-        int index = 0;
-        for(int i = 0; i < elements.length; i++) {
-            if(elements[i].equals("")) {
-                index++;
-            }
-            else {
-                index++;
-                break;
-            }
-        }
-        return elements[index];
     }
 
     private boolean isInternalClass(BeanDetails beanDetails) {
