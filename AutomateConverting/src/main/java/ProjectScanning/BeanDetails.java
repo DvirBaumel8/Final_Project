@@ -1,5 +1,8 @@
 package ProjectScanning;
 
+import java.io.File;
+import java.util.List;
+
 public class BeanDetails {
     private String ClassName;
     private String instanceName;
@@ -8,15 +11,19 @@ public class BeanDetails {
     private String createsClass;
     private String line;
     private String configurationFilePath;
+    private List<String> allLinesInCreatedClass;
+    private boolean isInsideExceptionThrowing;
+    private boolean isLazy;
     private boolean isDataStructure;
     private boolean isPrototypeInst;
 
-    public BeanDetails(String className, String instanceName, String implName, String constructorArgs, String line) {
+    public BeanDetails(String className, String instanceName, String implName, String constructorArgs, String line, List<String> allLine) {
         ClassName = className;
         this.instanceName = instanceName;
         this.implName = implName;
         this.constructorArgs = constructorArgs;
         this.line = line;
+        this.allLinesInCreatedClass = allLine;
     }
 
     public String getClassName() {
@@ -81,5 +88,29 @@ public class BeanDetails {
 
     public void setPrototypeInst(boolean prototypeInst) {
         isPrototypeInst = prototypeInst;
+    }
+
+    public String getLine() {
+        return line;
+    }
+
+    public List<String> getAllLines() {
+        return allLinesInCreatedClass;
+    }
+
+    public void setIsLazy(boolean isLazy) {
+        this.isLazy = isLazy;
+    }
+
+    public boolean getIsLazy() {
+        return isLazy;
+    }
+
+    public void setInsideExceptionThrowing(boolean isInsideExceptionThrowing) {
+        this.isInsideExceptionThrowing = isInsideExceptionThrowing;
+    }
+
+    public boolean getInsideExceptionThrowing() {
+        return isInsideExceptionThrowing;
     }
 }

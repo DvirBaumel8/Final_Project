@@ -103,11 +103,10 @@ public class FilesUtil {
         return false;
     }
 
-    //Maybe we have to delete
-    public File findFileByName(File[] projectFiles, String fileName) {
+    public static File findFileByName(File[] projectFiles, String fileName) {
         File main;
         for(int i = 0; i < projectFiles.length; i++) {
-            if(projectFiles[i].listFiles() != null ) {
+            if(projectFiles[i].listFiles() != null && !projectFiles[i].getName().equals("target")) {
                   main = findFileByName(projectFiles[i].listFiles(), fileName);
                   if(main != null) {
                       return main;

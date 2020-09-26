@@ -22,7 +22,6 @@ public class Manager {
     private UnitTestValidator unitTestValidator;
     private String projectDirectoryPath;
 
-
     public static Manager getInstance() {
         if (manager == null) {
             manager = new Manager();
@@ -45,9 +44,7 @@ public class Manager {
     }
 
     private void getProjectFromUser() throws Exception {
-        java.util.Scanner scanner = new java.util.Scanner(System.in);
-        //System.out.println("Enter project path:");
-        projectDirectoryPath = "C:\\Users\\amira\\Desktop\\projects to convert\\3\\without spring";
+        projectDirectoryPath = "/Users/db384r/Dev/Final_Project/Project/Final_Project/projects to convert/3/without spring";
         if (!validateProjectDirectoryPath(projectDirectoryPath)) {
             throw new Exception(getProjectPathErrorMessage());
         }
@@ -139,5 +136,9 @@ public class Manager {
 
     public void addFileToEditProject(File editFile) {
         editProject.addFile(editFile);
+    }
+
+    public File[] getProjectsFile() {
+        return editProject.getEditProjectFiles();
     }
 }
