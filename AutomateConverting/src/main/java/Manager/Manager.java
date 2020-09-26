@@ -4,13 +4,10 @@ import FilesUtil.*;
 import ProjectContainers.EditProject;
 import ProjectContainers.SourceProject;
 import ProjectScanning.Scanner;
-import UnitTests.UnitTestValidator;
 import com.google.googlejavaformat.java.FormatterException;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class Manager {
     private static Manager manager;
@@ -19,8 +16,8 @@ public class Manager {
     private XmlFormatter xmlFormatter;
     private SourceProject sourceProject;
     private EditProject editProject;
-    private UnitTestValidator unitTestValidator;
     private String projectDirectoryPath;
+    private ProjectValidator projectValidator;
 
     public static Manager getInstance() {
         if (manager == null) {
@@ -33,19 +30,19 @@ public class Manager {
         filesUtil = new FilesUtil();
         javaFormatter = new JavaFormatter();
         xmlFormatter = new XmlFormatter();
+        projectValidator = new ProjectValidator();
     }
 
     public void start() throws Exception {
-        getProjectFromUser();
-        init(projectDirectoryPath);
+        validateProjectPath();
+        executeInitConverting(projectDirectoryPath);
         scanProject();
         indentProject();
-        unitTestValidator.runUnitTests(editProject.getEditProjectFiles());
     }
 
-    private void getProjectFromUser() throws Exception {
-        projectDirectoryPath = "/Users/db384r/Dev/Final_Project/Project/Final_Project/projects to convert/3/without spring";
-        if (!validateProjectDirectoryPath(projectDirectoryPath)) {
+    private void validateProjectPath() throws Exception {
+        projectDirectoryPath = "/Users/db384r/Dev/Final_Project/Project/Final_Project/projects to convert/1/without spring";
+        if (!projectValidator.validateProjectDirectoryPath(projectDirectoryPath)) {
             throw new Exception(getProjectPathErrorMessage());
         }
     }
@@ -83,8 +80,7 @@ public class Manager {
         }
     }
 
-    private void init(String projectPath) throws IOException {
-        unitTestValidator = new UnitTestValidator();
+    private void executeInitConverting(String projectPath) throws IOException {
         editProject = new EditProject();
         sourceProject = new SourceProject();
         sourceProject.setProjectPath(projectPath);
@@ -112,22 +108,6 @@ public class Manager {
     private void setValueToProjectName() {
         String[] elements = sourceProject.getProjectPath().split("/");
         sourceProject.setProjectName(elements[elements.length - 1]);
-    }
-
-    public boolean validateProjectDirectoryPath(String projectDirectoryPath) {
-        boolean isValid = true;
-
-        if (!validateDirectoryContainPomFile(projectDirectoryPath)) {
-            isValid = false;
-        }
-        if (!Files.exists(Paths.get(projectDirectoryPath))) {
-            isValid = false;
-        }
-        return isValid;
-    }
-
-    private boolean validateDirectoryContainPomFile(String projectDirectoryPath) {
-        return true;
     }
 
     public String getProjectPathErrorMessage() {

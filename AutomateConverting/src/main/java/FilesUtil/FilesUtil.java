@@ -211,7 +211,7 @@ public class FilesUtil {
     }
 
     public void addMainConfFile() throws IOException {
-       String createPath = Manager.getInstance().getJavaDirectory().getPath() + "/MainConfiguration.java";
+        String createPath = Manager.getInstance().getJavaDirectory().getPath() + "/MainConfiguration.java";
         File confFile = new File(createPath);
         populateConfigMainFile(confFile);
     }
